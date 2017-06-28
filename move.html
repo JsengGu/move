@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		#box{
+			width: 200px;
+			height: 200px;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<script type="text/javascript">
+		var oBox = document.getElementById('box');
+
+		oBox.addEventListener('touchstart',function(ev){
+			console.log(ev);
+			var {clientX,clientY} = ev.targetTouches[0];
+			var disX = clientX - oBox.offsetLeft;
+			var disY = clientY - oBox.offsetTop;
+
+			function fnMove(ev){
+				var l = ev.targetTouches[0].clientX - disX;
+				var t = ev.targetTouches[0].clientY - disY;
+
+				oBox.style.left = l + 'px';
+				oBox.style.top = t + 'px';
+			}
+
+			function fnUp(){
+				document.removeEventListener('touchmove',fnMove,false);
+				document.removeEventListener('touchend',fnUp,false);
+			}
+
+			document.addEventListener('touchmove',fnMove,false);
+			document.addEventListener('touchend',fnUp,false);
+		},false);
+	</script>
+</body>
+</html>
+
+
+
+
+
+
